@@ -1,0 +1,997 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SA">
+	<!-- SA03 관리자 홈 버튼 클릭시 관리자 메인 페이지 이동-->
+	<!-- 정보 요청 목록 나열-->
+		<!-- 회원 수 추이(회원, 최대 10일) -->
+		<select id="memberSumDateNum" resultType="sa_chart">
+			SELECT
+			COUNT(MJOINDATE)
+			AS DAY1MNUMSUM,
+			COUNT(MJOINDATE)-COUNT(CASE WHEN TO_CHAR(MJOINDATE,
+			'YYMMDD') =
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY2MNUMSUM,
+			COUNT(MJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE, 'YYMMDD') BETWEEN
+			TO_CHAR(SYSDATE-1,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY3MNUMSUM,
+			COUNT(MJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-2,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY4MNUMSUM,
+			COUNT(MJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE, 'YYMMDD') BETWEEN
+			TO_CHAR(SYSDATE-3,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY5MNUMSUM,
+			COUNT(MJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-4,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY6MNUMSUM,
+			COUNT(MJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE, 'YYMMDD') BETWEEN
+			TO_CHAR(SYSDATE-5,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY7MNUMSUM,
+			COUNT(MJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-6,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY8MNUMSUM,
+			COUNT(MJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE, 'YYMMDD') BETWEEN
+			TO_CHAR(SYSDATE-7,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY9MNUMSUM,
+			COUNT(MJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-8,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY10MNUMSUM
+			FROM MEMBER
+		</select>
+		<!-- 회원 수 추이(점주, 최대 10일) -->
+		<select id="cmemberSumDateNum" resultType="sa_chart">
+			SELECT
+			COUNT(CJOINDATE)
+			AS DAY1CNUMSUM,
+			COUNT(CJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS
+			DAY2CNUMSUM,
+			COUNT(CJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE, 'YYMMDD')
+			BETWEEN TO_CHAR(SYSDATE-1,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY3CNUMSUM,
+			COUNT(CJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-2,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY4CNUMSUM,
+			COUNT(CJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE, 'YYMMDD') BETWEEN
+			TO_CHAR(SYSDATE-3,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY5CNUMSUM,
+			COUNT(CJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-4,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY6CNUMSUM,
+			COUNT(CJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE, 'YYMMDD') BETWEEN
+			TO_CHAR(SYSDATE-5,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY7CNUMSUM,
+			COUNT(CJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-6,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY8CNUMSUM,
+			COUNT(CJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE, 'YYMMDD') BETWEEN
+			TO_CHAR(SYSDATE-7,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY9CNUMSUM,
+			COUNT(CJOINDATE)-COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-8,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY10CNUMSUM
+			FROM CMEMBER
+		</select>
+		 <!-- 업체 수 추이(최대 10일) -->
+		<select id="storeConfirmDateNum" resultType="sa_chart">
+			SELECT
+			COUNT(SCONFIRMDATE)
+			AS DAY1SNUM,
+			COUNT(SCONFIRMDATE)-COUNT(CASE WHEN
+			TO_CHAR(SCONFIRMDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS
+			DAY2SNUM,
+			COUNT(SCONFIRMDATE)-COUNT(CASE WHEN
+			TO_CHAR(SCONFIRMDATE, 'YYMMDD')
+			BETWEEN TO_CHAR(SYSDATE-1,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY3SNUM,
+			COUNT(SCONFIRMDATE)-COUNT(CASE WHEN
+			TO_CHAR(SCONFIRMDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-2,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY4SNUM,
+			COUNT(SCONFIRMDATE)-COUNT(CASE WHEN
+			TO_CHAR(SCONFIRMDATE, 'YYMMDD') BETWEEN
+			TO_CHAR(SYSDATE-3,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY5SNUM,
+			COUNT(SCONFIRMDATE)-COUNT(CASE WHEN
+			TO_CHAR(SCONFIRMDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-4,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY6SNUM,
+			COUNT(SCONFIRMDATE)-COUNT(CASE WHEN
+			TO_CHAR(SCONFIRMDATE, 'YYMMDD') BETWEEN
+			TO_CHAR(SYSDATE-5,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY7SNUM,
+			COUNT(SCONFIRMDATE)-COUNT(CASE WHEN
+			TO_CHAR(SCONFIRMDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-6,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY8SNUM,
+			COUNT(SCONFIRMDATE)-COUNT(CASE WHEN
+			TO_CHAR(SCONFIRMDATE, 'YYMMDD') BETWEEN
+			TO_CHAR(SYSDATE-7,'YYMMDD') AND TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END )
+			AS DAY9SNUM,
+			COUNT(SCONFIRMDATE)-COUNT(CASE WHEN
+			TO_CHAR(SCONFIRMDATE,
+			'YYMMDD') BETWEEN TO_CHAR(SYSDATE-8,'YYMMDD') AND
+			TO_CHAR(SYSDATE,'YYMMDD') THEN
+			1 END ) AS DAY10SNUM
+			FROM STORE
+		</select>
+		<!-- 금일 가입 수(회원) -->
+		<select id="todayJoinMember" resultType="int">
+			SELECT COUNT(MJOINDATE)
+			FROM MEMBER WHERE TO_CHAR(MJOINDATE, 'YYYYMMDD') =
+			TO_CHAR(SYSDATE,'YYYYMMDD')
+		</select>
+		<!-- 금일 가입 수(점주) -->
+		<select id="todayJoinCMember" resultType="int">
+			SELECT COUNT(CJOINDATE)
+			FROM CMEMBER WHERE TO_CHAR(CJOINDATE, 'YYYYMMDD') =
+			TO_CHAR(SYSDATE,'YYYYMMDD')
+		</select>
+		<!-- 답변 대기 문의 수 -->
+		<select id="SA_InquiryWatingNum" resultType="int">
+			SELECT
+			COUNT(CQNAKEY) FROM QNAC WHERE CQNAKEY=0
+		</select>
+		<select id="SA_InquiryWatingNum2" resultType="int">
+			SELECT
+			COUNT(MQNAKEY) FROM QNAM WHERE MQNAKEY=0
+		</select>
+		<!-- 승인 대기 중인 업체 수 -->
+		<select id="SA_WatingStoreNum" resultType="int">
+			SELECT COUNT(SSTATUS)
+			FROM STORE WHERE SSTATUS=0
+		</select>
+
+	<!-- 회원 관리(회원) -->
+	<!-- SA05 회원 관리 클릭 시 회원 관리 페이지로 이동 및 관련 정보 요청 및 출력 -->
+	<!-- SA06 회원 목록 클릭 시 회원 목록 정보 요청 및 출력 -->
+	<select id="SA_MMgt" resultType="member">
+	SELECT * FROM
+		(SELECT ROWNUM AS E, A.* FROM 
+			(SELECT 
+    		MCODE,
+    		MID,
+    		(SELECT COUNT(*) FROM BOOK WHERE BOOK.BMCODE=MEMBER.MCODE)MBOOKNUM ,
+    		MNAME,
+    		MEMAIL,
+   		 	MKEY
+			FROM MEMBER ORDER BY MKEY ASC) 
+		A)
+		WHERE E BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<!-- 정보 요청 목록 나열-->
+		<!-- 총 회원 수 -->
+		<select id="sumMember" resultType="int">
+			SELECT COUNT(*) FROM MEMBER
+		</select>
+		<select id="sumCMember" resultType="int">
+			SELECT COUNT(*) FROM CMEMBER
+		</select>
+		<!-- 금일 예약 수 -->
+		<select id="sumBook" resultType="int">
+			SELECT COUNT(*) FROM BOOK WHERE TO_CHAR(BDATE, 'YYMMDD') = TO_CHAR(SYSDATE,'YYMMDD')
+		</select>
+		<!-- 회원 가입수 추이(회원, 최대 10일) -->
+		<select id="memberJoinDateNum" resultType="sa_chart">
+			SELECT
+			COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE, 'YYMMDD') = TO_CHAR(SYSDATE,'YYMMDD') THEN 1
+			END )
+			AS DAY1MNUM,
+			COUNT(CASE WHEN TO_CHAR(MJOINDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE-1,'YYMMDD') THEN
+			1 END ) AS DAY2MNUM,
+			COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE, 'YYMMDD') = TO_CHAR(SYSDATE-2,'YYMMDD') THEN
+			1 END )
+			AS DAY3MNUM,
+			COUNT(CASE WHEN TO_CHAR(MJOINDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE-3,'YYMMDD') THEN
+			1 END ) AS DAY4MNUM,
+			COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE, 'YYMMDD') = TO_CHAR(SYSDATE-4,'YYMMDD') THEN
+			1 END )
+			AS DAY5MNUM,
+			COUNT(CASE WHEN TO_CHAR(MJOINDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE-5,'YYMMDD') THEN
+			1 END ) AS DAY6MNUM,
+			COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE, 'YYMMDD') = TO_CHAR(SYSDATE-6,'YYMMDD') THEN
+			1 END )
+			AS DAY7MNUM,
+			COUNT(CASE WHEN TO_CHAR(MJOINDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE-7,'YYMMDD') THEN
+			1 END ) AS DAY8MNUM,
+			COUNT(CASE WHEN
+			TO_CHAR(MJOINDATE, 'YYMMDD') = TO_CHAR(SYSDATE-8,'YYMMDD') THEN
+			1 END )
+			AS DAY9MNUM,
+			COUNT(CASE WHEN TO_CHAR(MJOINDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE-9,'YYMMDD') THEN
+			1 END ) AS DAY10MNUM
+			FROM MEMBER
+		</select>
+		<!-- 회원 가입수 추이(점주, 최대 10일) -->
+		<select id="cmemberJoinDateNum" resultType="sa_chart">
+			SELECT
+			COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE, 'YYMMDD') = TO_CHAR(SYSDATE,'YYMMDD') THEN 1
+			END )
+			AS DAY1CNUM,
+			COUNT(CASE WHEN TO_CHAR(CJOINDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE-1,'YYMMDD') THEN
+			1 END ) AS DAY2CNUM,
+			COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE, 'YYMMDD') = TO_CHAR(SYSDATE-2,'YYMMDD') THEN
+			1 END )
+			AS DAY3CNUM,
+			COUNT(CASE WHEN TO_CHAR(CJOINDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE-3,'YYMMDD') THEN
+			1 END ) AS DAY4CNUM,
+			COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE, 'YYMMDD') = TO_CHAR(SYSDATE-4,'YYMMDD') THEN
+			1 END )
+			AS DAY5CNUM,
+			COUNT(CASE WHEN TO_CHAR(CJOINDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE-5,'YYMMDD') THEN
+			1 END ) AS DAY6CNUM,
+			COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE, 'YYMMDD') = TO_CHAR(SYSDATE-6,'YYMMDD') THEN
+			1 END )
+			AS DAY7CNUM,
+			COUNT(CASE WHEN TO_CHAR(CJOINDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE-7,'YYMMDD') THEN
+			1 END ) AS DAY8CNUM,
+			COUNT(CASE WHEN
+			TO_CHAR(CJOINDATE, 'YYMMDD') = TO_CHAR(SYSDATE-8,'YYMMDD') THEN
+			1 END )
+			AS DAY9CNUM,
+			COUNT(CASE WHEN TO_CHAR(CJOINDATE, 'YYMMDD') =
+			TO_CHAR(SYSDATE-9,'YYMMDD') THEN
+			1 END ) AS DAY10CNUM
+			FROM CMEMBER
+		</select>
+		
+	<!-- SA07 탈퇴 버튼 클릭 시 해당 회원 정보 탈퇴 요청 및 처리 -->
+	<!-- SA11 강제 탈퇴 버튼 클릭 시 해당 회원 정보 탈퇴 요청 및 처리 -->
+	<update id="SA_MDel" parameterType="String">
+		UPDATE MEMBER SET MKEY=2 WHERE MCODE=#{mCode}
+	</update>
+
+	<!-- SA08 회원 아이디 클릭 시 회원 상세 정보 요청 및 출력 -->
+	<select id="SA_MView" parameterType="String" resultType="member">
+		SELECT * FROM MEMBER WHERE MCODE=#{mCode}
+	</select>
+	
+	<!-- SA10 수정 정보 입력 후 수정 요청 및 처리 후 회원 상세 정보 페이지 이동 -->
+	<update id="SA_MModi" parameterType="member">
+		UPDATE MEMBER SET
+		MBIRTH=	#{mBirth}, MADDR= #{mAddr}, MPHONE= #{mPhone}, MGENDER=#{mGender},MEMAIL= #{mEmail}
+		WHERE MCODE=#{mCode}
+	</update>
+	
+	<!-- 회원 관리(점주) -->
+	<!-- SA12 점주 목록 클릭 시 점주 목록 정보 요청 및 출력 -->
+	<select id="SA_MMgt2" resultType="company">
+	SELECT * FROM
+		(SELECT ROWNUM AS E, A.* FROM 
+			(SELECT * FROM CMEMBER  ORDER BY CKEY ASC) 
+		A)
+		WHERE E BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- SA13 탈퇴 버튼 클릭 시 점주 정보 탈퇴 요청 및 처리 -->
+	<!-- SA17 강제 탈퇴 버튼 클릭 시 해당 점주 정보 탈퇴 요청 및 처리 -->
+	<update id="SA_CDel" parameterType="String">
+		UPDATE CMEMBER SET CKEY=2 WHERE CCODE=#{cCode}
+	</update>
+	
+	<!-- SA14 점주 아이디 클릭 시 점주 상세 정보 요청 및 출력 -->
+	<select id="SA_CView" parameterType="String" resultType="company">
+		SELECT * FROM CMEMBER WHERE CCODE=#{cCode}
+	</select>
+	
+	<!-- SA16 수정 정보 입력 후 수정 요청 및 처리 후 점주 상세 정보 페이지 이동 -->
+	<update id="SA_CModi" parameterType="company">
+		UPDATE CMEMBER SET
+		CPHONE=	#{cPhone}, CEMAIL= #{cEmail}
+		WHERE CCODE=#{cCode}
+	</update>
+	
+	<!-- SA18 카테고리 선택 후 검색 요청 및 처리(회원) -->
+	<select id="SA_SelCat1" parameterType="java.util.HashMap"
+		resultType="member">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT 
+    			MCODE,
+    			MID,
+    			(SELECT COUNT(*) FROM BOOK WHERE BOOK.BMCODE=MEMBER.MCODE)MBOOKNUM ,
+    			MNAME,
+    			MEMAIL,
+   				MKEY
+				FROM MEMBER
+				WHERE 
+				(MCODE LIKE '%'||#{keyword}||'%' OR
+				MID LIKE '%'||#{keyword}||'%' OR
+				MNAME LIKE '%'||#{keyword}||'%' OR
+				MEMAIL LIKE '%'||#{keyword}||'%')  ORDER BY MKEY ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}	
+	</select>
+	<select id="SA_SelCat1_1" parameterType="java.util.HashMap"
+		resultType="member">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT 
+    			MCODE,
+    			MID,
+    			(SELECT COUNT(*) FROM BOOK WHERE BOOK.BMCODE=MEMBER.MCODE)MBOOKNUM ,
+    			MNAME,
+    			MEMAIL,
+   				MKEY
+				FROM MEMBER
+				WHERE 
+				MCODE LIKE '%'||#{keyword}||'%'
+				 ORDER BY MKEY ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}	
+	</select>
+	<select id="SA_SelCat1_2" parameterType="java.util.HashMap"
+		resultType="member">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT 
+    			MCODE,
+    			MID,
+    			(SELECT COUNT(*) FROM BOOK WHERE BOOK.BMCODE=MEMBER.MCODE)MBOOKNUM ,
+    			MNAME,
+    			MEMAIL,
+   				MKEY
+				FROM MEMBER
+				WHERE 
+				MID LIKE '%'||#{keyword}||'%'
+				 ORDER BY MKEY ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}	
+	</select>
+	<select id="SA_SelCat1_3" parameterType="java.util.HashMap"
+		resultType="member">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT 
+    			MCODE,
+    			MID,
+    			(SELECT COUNT(*) FROM BOOK WHERE BOOK.BMCODE=MEMBER.MCODE)MBOOKNUM ,
+    			MNAME,
+    			MEMAIL,
+   				MKEY
+				FROM MEMBER
+				WHERE 
+				MNAME LIKE '%'||#{keyword}||'%'
+				 ORDER BY MKEY ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}	
+	</select>
+	<select id="SA_SelCat1_4" parameterType="java.util.HashMap"
+		resultType="member">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT 
+    			MCODE,
+    			MID,
+    			(SELECT COUNT(*) FROM BOOK WHERE BOOK.BMCODE=MEMBER.MCODE)MBOOKNUM ,
+    			MNAME,
+    			MEMAIL,
+   				MKEY
+				FROM MEMBER
+				WHERE 
+				MEMAIL LIKE '%'||#{keyword}||'%' 
+				 ORDER BY MKEY ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}	
+	</select>
+	
+	<!-- SA18 카테고리 선택 후 검색 요청 및 처리(점주) -->
+	<select id="SA_SelCat2" parameterType="java.util.HashMap"
+		resultType="company">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT * FROM CMEMBER
+				WHERE 
+				(CCODE LIKE '%'||#{keyword}||'%' OR
+				CNAME LIKE '%'||#{keyword}||'%' OR
+				CEMAIL LIKE '%'||#{keyword}||'%' OR
+				CID LIKE '%'||#{keyword}||'%') 
+				ORDER BY CKEY ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}	
+	</select>
+	<select id="SA_SelCat2_1" parameterType="java.util.HashMap"
+		resultType="company">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT * FROM CMEMBER
+				WHERE CCODE LIKE '%'||#{keyword}||'%'
+				ORDER BY CKEY ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}	
+	</select>
+	<select id="SA_SelCat2_2" parameterType="java.util.HashMap"
+		resultType="company">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT * FROM CMEMBER
+				WHERE CID LIKE '%'||#{keyword}||'%'
+				ORDER BY CKEY ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}	
+	</select>
+	<select id="SA_SelCat2_3" parameterType="java.util.HashMap"
+		resultType="company">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT * FROM CMEMBER
+				WHERE CNAME LIKE '%'||#{keyword}||'%'
+				ORDER BY CKEY ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}	
+	</select>
+	<select id="SA_SelCat2_4" parameterType="java.util.HashMap"
+		resultType="company">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT * FROM CMEMBER
+				WHERE CEMAIL LIKE '%'||#{keyword}||'%'
+				ORDER BY CKEY ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}	
+	</select>
+	
+	<!-- 업체 관리 -->
+	<!-- SA19 업체 관리 버튼 클릭 시 업체 관리 페이지 이동 및 정보 처리 요청 및 출력 -->
+	<select id="SA_SMgt" resultType="store">
+	SELECT * FROM
+    	(SELECT ROWNUM AS E, H.* FROM 
+    		(SELECT A.STORECODE,
+			B.CID,
+			A.SNAME,
+			A.SBNUM,
+			A.SPHONE,
+			A.SSTATUS
+			FROM STORE A, CMEMBER B
+			WHERE A.SCCODE = B.CCODE
+			ORDER BY A.SSTATUS ASC) 
+    	H)
+		WHERE E BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<!-- 정보 요청 목록 나열 -->
+		<!-- 총 업체 수 -->
+		<select id="SA_SumStoreNum" resultType="int">
+			SELECT COUNT(SSTATUS) FROM STORE
+		</select>
+		
+	<!-- SA20 이용 중지 버튼 클릭 시 이용 중지 요청 및 처리 -->
+	<!-- SA24 이용 중지 버튼 클릭 시 해당 업체 정보 이용 중지 및 처리 -->
+	<delete id="SA_SDel" parameterType="String">
+		UPDATE STORE SET SSTATUS=3 WHERE
+		STORECODE=#{storeCode}
+	</delete>
+	
+	<!-- SA21 업체명 클릭 시 업체 상세 정보 페이지 이동 및 출력 -->
+	<!-- SA27 업체명 클릭 시 업체 상세 정보 페이지 이동 및 출력 -->
+	<select id="SA_SView" parameterType="String" resultType="store">
+		SELECT *
+		FROM STORE WHERE STORECODE=#{storeCode}
+	</select>
+	
+	<!-- SA23 수정 정보 입력 후 수정 요청 및 처리 후 업체 상세 정보 페이지 이동 -->
+	<update id="SA_SModi" parameterType="store">
+		UPDATE STORE SET
+		SFOOD=
+		#{sFood}, STIME= #{sTime}, SURL= #{sUrl}, SADDR=#{sAddr},
+		SNAME=
+		#{sName}, SPHONE= #{sPhone}, SSEAT= #{sSeat},
+		SCONTENTS= #{sContents},
+		SBNUM= #{sbNum}, SPARK= #{sPark},
+		SKEYWORD= #{sKeyword},
+		SFILENAME1 =
+		#{sFileName1, jdbcType=VARCHAR},
+		SFILENAME2 = #{sFileName2,
+		jdbcType=VARCHAR},
+		SFILENAME3 = #{sFileName3, jdbcType=VARCHAR}
+		WHERE
+		STORECODE=#{storeCode}
+	</update>
+	
+	<!-- SA25 카테고리 선택 후 검색 요청 및 처리 -->
+	<select id="SA_SelCat3" parameterType="java.util.HashMap"
+		resultType="store">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT
+				A.STORECODE,
+				B.CID,
+				A.SNAME,
+				A.SBNUM,
+				A.SPHONE,
+				A.SSTATUS
+				FROM STORE A, CMEMBER B
+				WHERE (A.SNAME LIKE '%'||#{keyword}||'%' OR
+				A.STORECODE LIKE
+				'%'||#{keyword}||'%' OR
+				B.CID LIKE
+				'%'||#{keyword}||'%') AND A.SCCODE = B.CCODE ORDER BY A.SSTATUS ASC
+				) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}		
+	</select>
+	<select id="SA_SelCat3_1" parameterType="java.util.HashMap"
+		resultType="store">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT
+				A.STORECODE,
+				B.CID,
+				A.SNAME,
+				A.SBNUM,
+				A.SPHONE,
+				A.SSTATUS
+				FROM STORE A, CMEMBER B
+				WHERE A.SNAME LIKE '%'||#{keyword}||'%' AND A.SCCODE = B.CCODE 
+				ORDER BY A.SSTATUS ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}		
+	</select>
+	<select id="SA_SelCat3_2" parameterType="java.util.HashMap"
+		resultType="store">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT
+				A.STORECODE,
+				B.CID,
+				A.SNAME,
+				A.SBNUM,
+				A.SPHONE,
+				A.SSTATUS
+				FROM STORE A, CMEMBER B
+				WHERE
+				B.CID LIKE
+				'%'||#{keyword}||'%' AND A.SCCODE = B.CCODE ORDER BY A.SSTATUS ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}
+	</select>
+	<select id="SA_SelCat3_3" parameterType="java.util.HashMap"
+		resultType="store">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, H.* FROM 
+				(SELECT
+				A.STORECODE,
+				B.CID,
+				A.SNAME,
+				A.SBNUM,
+				A.SPHONE,
+				A.SSTATUS
+				FROM STORE A, CMEMBER B
+				WHERE
+				A.STORECODE LIKE
+				'%'||#{keyword}||'%' AND A.SCCODE = B.CCODE ORDER BY A.SSTATUS ASC) 
+			H)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}
+	</select>
+
+
+	<!-- 업체 가입 승인 -->
+	<!-- SA26 업체 가입 승인 클릭 시 업체 가입 승인 페이지 이동 및 정보 처리 요청 및 출력 -->
+	<select id="SA_SCfmList" resultType="store">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, A.*
+			FROM (SELECT * FROM SA_SCONFIRM WHERE SSTATUS=0) A)
+		WHERE E BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- SA28 승인 버튼 클릭 시 승인 요청 및 처리 -->
+	<update id="SA_PassS" parameterType="String">
+		UPDATE STORE SET SSTATUS=1,
+		SCONFIRMDATE=SYSDATE WHERE STORECODE=#{storeCode}
+	</update>
+	
+	<!-- SA29 거절 버튼 클릭 시 거절 요청 및 처리 -->
+	<update id="SA_CancelS">
+		UPDATE STORE SET SSTATUS=2 WHERE
+		STORECODE=#{storeCode}
+	</update>
+	
+	<!-- 리뷰 관리 -->
+	<!-- SA30 리뷰 관리 클릭 시 리뷰 관리 페이지 이동 및 정보 요청 및 출력 -->
+<!-- 	<select id="SA_ReviewMgt" resultType="reviewsave">
+		SELECT * FROM SA_REVIEW
+		ORDER BY RDATE DESC
+	</select> -->
+	<select id="SA_ReviewMgt" resultType="reviewsave">
+		SELECT * FROM
+		(SELECT ROWNUM AS E, A.*
+		FROM (SELECT * FROM SA_REVIEW ORDER BY RDATE DESC) A)
+		WHERE E BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- SA32 리뷰코드 클릭 시 해당 리뷰 상세 보기 요청 및 팝업창 출력 -->
+	<select id="SA_ViewReview" parameterType="String"
+		resultType="reviewsave">
+		SELECT * FROM SA_REVIEW WHERE RCODE=#{rCode}
+	</select>
+	
+	<!-- SA31 삭제 버튼 클릭시 해당 리뷰 삭제 요청 및 처리 -->
+	<delete id="SA_ReviewDel" parameterType="String">
+		DELETE FROM
+		REVIEW WHERE
+		RCODE=#{rCode}
+	</delete>
+	<delete id="SA_ReviewDel2" parameterType="String">
+		DELETE FROM
+		REVIEW WHERE
+		RCODE=#{rCode}
+	</delete>
+	
+	<!-- SA33 카테고리 선택 후 검색 요청 및 처리 -->
+	<select id="SA_ReviewSel1" parameterType="java.util.HashMap"
+		resultType="reviewsave">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, A.* FROM 
+				(SELECT * FROM SA_REVIEW WHERE RCODE LIKE '%'||#{keyword}||'%' ORDER BY RDATE DESC) 
+			A)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}
+	</select>
+	<select id="SA_ReviewSel2" parameterType="java.util.HashMap"
+		resultType="reviewsave">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, A.* FROM 
+				(SELECT * FROM SA_REVIEW WHERE RCONTENTS LIKE '%'||#{keyword}||'%' ORDER BY RDATE DESC) 
+			A)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}
+	</select>
+	<select id="SA_ReviewSel3" parameterType="java.util.HashMap"
+		resultType="reviewsave">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, A.* FROM 
+				(SELECT * FROM SA_REVIEW WHERE RMID LIKE '%'||#{keyword}||'%' ORDER BY RDATE DESC) 
+			A)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}
+	</select>
+	<select id="SA_ReviewSel" parameterType="java.util.HashMap"
+		resultType="reviewsave">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, A.* FROM 
+				(SELECT * FROM SA_REVIEW WHERE 
+					(RCODE LIKE '%'||#{keyword}||'%' OR
+					RCONTENTS LIKE '%'||#{keyword}||'%' OR
+					RMID LIKE '%'||#{keyword}||'%') 
+				ORDER BY RDATE DESC) 
+			A)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}
+	</select>
+		
+	<!-- 1:1 문의 관리 -->
+	<!-- SA34 1:1 문의 관리 클릭 시 1:1문의 페이지 이동 및 정보 요청 및 출력(회원) -->
+	<select id="SA_InquiryList" resultType="qna">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, A.* FROM 
+				(SELECT * FROM QNAM ORDER
+				BY MQNACODE DESC) 
+			A)
+		WHERE E BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- SA35 보기 버튼 클릭 시 문의 내용 상세 보기 요청 및 출력(회원) -->
+	<select id="SA_InquiryView" parameterType="int" resultType="qna">
+		SELECT * FROM QNAM WHERE MQNACODE=#{mQnACode}
+	</select>
+	
+	<!-- SA36 답변 작성 버튼 클릭 시 작성 요청 및 처리 후 1:1 문의 관리 페이지로 이동(회원) -->
+	<update id="SA_ResInquiry" parameterType="qna">
+		UPDATE QNAM SET
+		MQNAANSWER=#{mQnAAnswer}, MQNAKEY=1, MQNADATE2=SYSDATE WHERE
+		MQNACODE=#{mQnACode}
+	</update>
+	
+	<!-- SA37 수정 버튼 클릭 시 수정 요청 및 처리 후 1:1 문의 관리 페이지로 이동(회원) -->
+	<update id="SA_ResInquiryModi" parameterType="qna">
+		UPDATE QNAM SET
+		MQNAANSWER=#{mQnAAnswer}, MQNADATE2=SYSDATE WHERE MQNACODE=#{mQnACode}
+	</update>
+	
+	<!-- SA38 카테고리 선택 후 검색 요청 및 처리(회원) -->
+	<select id="SA_SelCat5" parameterType="java.util.HashMap" resultType="qna">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, A.* FROM 
+				(SELECT * FROM QNAM WHERE MQNACAT=#{selectVal} ORDER BY MQNACODE DESC) 
+			A)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}
+	</select>
+	
+	<!-- SA34 1:1문의 페이지 이동 및 정보 요청 및 출력(점주) -->
+	<select id="SA_InquiryList2" resultType="qna">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, A.* FROM 
+				(SELECT * FROM QNAC ORDER
+				BY CQNACODE DESC) 
+			A)
+		WHERE E BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<!-- SA35 보기 버튼 클릭 시 문의 내용 상세 보기 요청 및 출력(점주) -->
+	<select id="SA_InquiryView2" parameterType="int"
+		resultType="qna">
+		SELECT * FROM QNAC WHERE CQNACODE=#{cQnACode}
+	</select>
+	
+	<!-- SA36 답변 작성 버튼 클릭 시 작성 요청 및 처리 후 1:1 문의 관리 페이지로 이동(점주) -->
+	<update id="SA_ResInquiry2" parameterType="qna">
+		UPDATE QNAC SET
+		CQNAANSWER=#{cQnAAnswer}, CQNAKEY=1, CQNADATE2=SYSDATE WHERE
+		CQNACODE=#{cQnACode}
+	</update>
+	
+	<!-- SA37 수정 버튼 클릭 시 수정 요청 및 처리 후 1:1 문의 관리 페이지로 이동(점주) -->
+	<update id="SA_ResInquiryModi2" parameterType="qna">
+		UPDATE QNAC SET
+		CQNAANSWER=#{cQnAAnswer}, CQNADATE2=SYSDATE WHERE CQNACODE=#{cQnACode}
+	</update>
+	
+	<!-- SA38 카테고리 선택 후 검색 요청 및 처리(점주) -->
+	<select id="SA_SelCat6" parameterType="java.util.HashMap" resultType="qna">
+		SELECT * FROM
+			(SELECT ROWNUM AS E, A.* FROM 
+				(SELECT * FROM QNAC WHERE CQNACAT=#{selectVal} ORDER BY CQNACODE DESC) 
+			A)
+		WHERE E BETWEEN #{paging.startRow} AND #{paging.endRow}
+	</select>
+		
+	<!-- 자주 묻는 질문 작성 -->
+	<!-- SA40 등록 버튼 클릭 시 등록 요청 및 처리 -->
+	<insert id="SA_WriteFAQ" parameterType="qna">
+		INSERT INTO FAQ
+		VALUES(FAQCODE_SEQ.NEXTVAL, #{FAQCat}, #{FAQTitle}, #{FAQContents})
+	</insert>
+	
+	<!-- 자주 묻는 질문 관리 -->
+	<!-- SA41 자주 묻는 질문 관리 클릭 시 자주 묻는 질문 관리 페이지 이동 및 정보 요청 및 출력 -->
+	<select id="SA_FAQList" resultType="qna">
+		SELECT * FROM FAQ ORDER BY
+		FAQCODE DESC
+	</select>
+	
+	<!-- SA42 삭제 버튼 클릭 시 해당 자주 묻는 질문 삭제 요청 및 처리 -->
+	<!-- SA45 삭제 버튼 클릭 시 해당 자주 묻는 질문 삭제 요청 및 처리 -->
+	<delete id="SA_FAQDel" parameterType="int">
+		DELETE FROM FAQ WHERE
+		FAQCODE=#{FAQCODE}
+	</delete>
+	
+	<!-- SA43 제목 클릭 시 해당 자주 묻는 질문 상세 보기 요청 및 출력 -->
+	<select id="SA_FAQView" parameterType="int" resultType="qna">
+		SELECT *
+		FROM FAQ WHERE FAQCODE=#{FAQCODE}
+	</select>
+	
+	<!-- SA44 수정 버튼 클릭 시 수정 요청 및 처리 후 상세 보기 페이지로 이동 -->
+	<update id="SA_FAQModify" parameterType="qna">
+		UPDATE FAQ SET FAQCAT=
+		#{FAQCat}, FAQTITLE = #{FAQTitle}, FAQCONTENTS = #{FAQContents} WHERE
+		FAQCODE = #{FAQCode}
+	</update>
+	
+	<!-- SA46 카테고리 선택 후 검색 요청 및 처리 -->
+	<select id="SA_SelCat7" parameterType="String" resultType="qna">
+		SELECT * FROM FAQ WHERE FAQCAT= #{FAQCat} ORDER BY FAQCODE DESC
+	</select>
+	
+	<!-- 페이징 -->
+	<!-- 리뷰 수 조회 -->
+	<select id="ReviewListCount" resultType="int" >
+		SELECT COUNT(*) FROM REVIEW
+	</select>
+	<!-- 리뷰 수 조회(카테고리) -->
+	<select id="ReviewListCount2_1" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM REVIEW WHERE(
+		RCODE LIKE
+		'%'||#{keyword}||'%')
+	</select>
+	<select id="ReviewListCount2_2" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM REVIEW WHERE(
+		RCONTENTS LIKE '%'||#{keyword}||'%')
+	</select>
+	<select id="ReviewListCount2_3" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM REVIEW WHERE(
+		RMID LIKE '%'||#{keyword}||'%')
+	</select>
+	<select id="ReviewListCount2_4" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM REVIEW WHERE(
+		RCODE LIKE
+		'%'||#{keyword}||'%' OR
+		RCONTENTS LIKE '%'||#{keyword}||'%' OR
+		RMID LIKE
+		'%'||#{keyword}||'%')
+	</select>
+	<!-- 업체 가입 승인 대기수 조회 -->
+	<select id="SCfmListCount" resultType="int">
+		SELECT COUNT(*) FROM SA_SCONFIRM WHERE SSTATUS=0
+	</select>
+	<!-- 업체수 조회(카테고리) -->
+		<select id="sListCount2_1" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM STORE WHERE(
+		SNAME LIKE
+		'%'||#{keyword}||'%')
+	</select>
+	<select id="sListCount2_2" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM STORE A, CMEMBER B  WHERE(
+		B.CID LIKE
+		'%'||#{keyword}||'%' AND A.SCCODE = B.CCODE)	
+	</select>
+	<select id="sListCount2_3" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM STORE WHERE(
+		STORECODE LIKE
+		'%'||#{keyword}||'%')
+	</select>
+	<select id="sListCount2_4" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM STORE A, CMEMBER B WHERE(
+		A.SNAME LIKE
+		'%'||#{keyword}||'%' OR
+		B.CID LIKE '%'||#{keyword}||'%' OR
+		A.STORECODE LIKE
+		'%'||#{keyword}||'%' ) AND A.SCCODE = B.CCODE
+	</select>
+	<!-- 회원 수 조회(카테고리) -->
+	<select id="mListCount2_1" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MCODE LIKE
+		'%'||#{keyword}||'%'
+	</select>
+	<select id="mListCount2_2" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MID LIKE
+		'%'||#{keyword}||'%'
+	</select>
+	<select id="mListCount2_3" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MNAME LIKE
+		'%'||#{keyword}||'%'
+	</select>
+	<select id="mListCount2_4" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MEMAIL LIKE
+		'%'||#{keyword}||'%'
+	</select>
+	<select id="mListCount2_5" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE 
+		(MCODE LIKE
+		'%'||#{keyword}||'%' OR
+		MID LIKE
+		'%'||#{keyword}||'%' OR
+		MNAME LIKE
+		'%'||#{keyword}||'%' OR
+		MEMAIL LIKE
+		'%'||#{keyword}||'%')
+	</select>
+	<!-- 점주 수 조회(카테고리) -->
+	<select id="cListCount2_1" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM CMEMBER
+		WHERE CCODE LIKE
+		'%'||#{keyword}||'%'
+	</select>
+	<select id="cListCount2_2" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM CMEMBER
+		WHERE CID LIKE
+		'%'||#{keyword}||'%'
+	</select>
+	<select id="cListCount2_3" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM CMEMBER
+		WHERE CNAME LIKE
+		'%'||#{keyword}||'%'
+	</select>
+	<select id="cListCount2_4" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM CMEMBER
+		WHERE CEMAIL LIKE
+		'%'||#{keyword}||'%'
+	</select>
+	<select id="cListCount2_5" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM CMEMBER
+		WHERE 
+		(CCODE LIKE
+		'%'||#{keyword}||'%' OR
+		CID LIKE
+		'%'||#{keyword}||'%' OR
+		CNAME LIKE
+		'%'||#{keyword}||'%' OR
+		CEMAIL LIKE
+		'%'||#{keyword}||'%')
+	</select>
+	<!-- 1:1문의 수 구하기(회원) -->
+	<select id="mInquiryListCount" resultType="int" >
+		SELECT COUNT(*) FROM QNAM
+	</select>
+	<!-- 1:1문의 수 구하기(회원, 카테고리) -->
+	<select id="mInquiryListCount2_1" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM QNAM 
+		WHERE MQNACAT LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="mInquiryListCount2_2" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM QNAM 
+		WHERE MQNACAT LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="mInquiryListCount2_3" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM QNAM 
+		WHERE MQNACAT LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="mInquiryListCount2_4" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM QNAM 
+		WHERE MQNACAT LIKE '%'||#{keyword}||'%'
+	</select>
+	<!-- 1:1문의 수 구하기(점주) -->
+	<select id="cInquiryListCount" resultType="int" >
+		SELECT COUNT(*) FROM QNAC
+	</select>
+	<!-- 1:1문의 수 구하기(점주, 카테고리) -->
+	<select id="cInquiryListCount2_1" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM QNAC
+		WHERE CQNACAT LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="cInquiryListCount2_2" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM QNAC 
+		WHERE CQNACAT LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="cInquiryListCount2_3" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM QNAC
+		WHERE CQNACAT LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="cInquiryListCount2_4" parameterType="String" resultType="int" >
+		SELECT COUNT(*) FROM QNAC
+		WHERE CQNACAT LIKE '%'||#{keyword}||'%'
+	</select>
+</mapper>

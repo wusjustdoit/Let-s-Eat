@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CS">
+	
+	<!-- CS01 고객센터 클릭 시 고객센터 페이지 이동 및 관련 정보 요청 및 출력 -->
+	<select id="CS_Index" resultType="qna">
+		SELECT * FROM FAQ ORDER BY FAQCODE DESC 
+	</select>
+
+	<!-- CS03 카테고리 선택 후 검색 요청 및 처리 -->
+	<select id="CS_SelCat" resultType="qna" parameterType="String">
+		SELECT * FROM FAQ WHERE FAQCAT=#{FAQCat} ORDER BY FAQCODE DESC 
+	</select>
+
+	<!-- CS05_1 등록 버튼 클릭 시 등록 요청 및 처리 후 고객센터 메인페이지로 이동(회원) -->
+	<insert id="CS_InquiryReg1" parameterType="qna">
+		INSERT INTO QNAM VALUES(MQNACODE_SEQ.NEXTVAL, #{mQnACat}, #{mQnAmId}, #{mQnATitle}, #{mQnAContents}, SYSDATE, NULL , NULL, 0)
+	 </insert>
+
+	<!-- CS05_2 등록 버튼 클릭 시 등록 요청 및 처리 후 고객센터 메인페이지로 이동(점주) -->
+	<insert id="CS_InquiryReg2" parameterType="qna">
+		INSERT INTO QNAC VALUES(CQNACODE_SEQ.NEXTVAL, #{cQnACat}, #{cQnAcId}, #{cQnATitle}, #{cQnAContents}, SYSDATE, NULL , NULL, 0) 
+	</insert>
+	
+</mapper>
+
+
+
+

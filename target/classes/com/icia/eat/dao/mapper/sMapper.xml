@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Store">
+
+	<!-- 업체 상세보기1(회원,점주) -->
+	<select id="sView" resultType="store">
+		SELECT * FROM STORE WHERE STORECODE=#{storeCode} 
+	</select>
+
+	<!-- 업체 상세보기2(회원) 별점 평균을 위한 sql -->
+	<select id="resaView" resultType="reviewsave">
+		SELECT ROUND(AVG(RSTAR),2) AS RSTARAVG FROM REVIEW WHERE RSCODE=#{storeCode} 
+	</select>
+
+	<!-- 업체 상세보기3(회원) 해당업체의 찜여부를 판별하기위한 sql -->
+	<select id="resaView1" resultType="reviewsave">
+		SELECT * FROM SAVE WHERE SSCODE=#{storeCode} AND SMCODE=#{mCode} 
+	</select>
+
+
+	<!-- 업체 상세보기에서 들어가는 리뷰 목록 - 최신순 (모든 회원, 점주가 볼 수 있음) -->
+	<select id="storeRList" resultType="reviewsave" parameterType="String">
+		SELECT R.RCODE,R.RSCODE,R.RCONTENTS,R.RSTAR,TO_CHAR(R.RBOOK,'YYYY-MM-DD') AS RBOOK,R.RMID,R.RDATE,S.SNAME AS RSNAME
+		FROM REVIEW R, STORE S WHERE RSCODE=#{rsCode} AND R.RSCODE = S.STORECODE ORDER BY RDATE DESC  
+	</select>
+	
+	<!-- 업체 상세보기에서 들어가는 리뷰 목록 - 평점 높은순 -->
+	<select id="storeRListHigh" resultType="reviewsave" parameterType="String">
+		SELECT R.RCODE,R.RSCODE,R.RCONTENTS,R.RSTAR,TO_CHAR(R.RBOOK,'YYYY-MM-DD') AS RBOOK,R.RMID,R.RDATE,S.SNAME AS RSNAME
+		FROM REVIEW R, STORE S WHERE RSCODE=#{rsCode} AND R.RSCODE = S.STORECODE ORDER BY RSTAR DESC
+	</select>
+	
+	<!-- 업체 상세보기에서 들어가는 리뷰 목록 - 평점 낮은순 -->
+	<select id="storeRListLow"  resultType="reviewsave" parameterType="String">
+		SELECT R.RCODE,R.RSCODE,R.RCONTENTS,R.RSTAR,TO_CHAR(R.RBOOK,'YYYY-MM-DD') AS RBOOK,R.RMID,R.RDATE,S.SNAME AS RSNAME
+		FROM REVIEW R, STORE S WHERE RSCODE=#{rsCode} AND R.RSCODE = S.STORECODE ORDER BY RSTAR ASC
+	</select>
+	
+	<!-- 해당업체 리뷰목록에서 본인이 쓴 리뷰 삭제하기 -->
+	<delete id="storeReviewDel" parameterType="String">
+		DELETE FROM REVIEW WHERE RCODE=#{rCode}
+	</delete>
+	
+	<!-- 상세보기에서 예약가능수 가져오려고 -->
+	<select id="sreservation" resultType="reservation">
+		SELECT BOOKCODE, BOOKSCODE,TO_CHAR(BOOKDATE, 'YYYY-MM-DD') AS BOOKDATE, BOOK9, BOOK10, BOOK11, BOOK12, BOOK13, BOOK14, BOOK15, 
+		BOOK16, BOOK17, BOOK18 , BOOK19, BOOK20, BOOK21 FROM MNGBOOK WHERE BOOKSCODE=#{storeCode} AND BOOKDATE=TO_CHAR(SYSDATE, 'YYYY-MM-DD') 
+	</select>
+
+	<!--상세보기 예약가능 수 선택 날짜 -->
+	<select id="sreservationD" resultType="reservation" parameterType="hashmap">
+		SELECT BOOKCODE, BOOKSCODE,TO_CHAR(BOOKDATE, 'YYYY-MM-DD') AS BOOKDATE, BOOK9, BOOK10, BOOK11, BOOK12, BOOK13, BOOK14, BOOK15, 
+		BOOK16, BOOK17, BOOK18 , BOOK19, BOOK20, BOOK21 FROM MNGBOOK WHERE BOOKSCODE=#{storeCode} AND BOOKDATE=#{bookDate} 
+	</select>
+	
+	
+	
+	
+</mapper>
+
+
+
+

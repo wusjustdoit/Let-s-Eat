@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<!-- DTO를 별칭으로 줄여서 사용하기 위함 (alias에 원하는 별칭 기입) -->
+	
+		<typeAlias type="com.icia.eat.dto.MemberDTO"	alias="member" />
+		<typeAlias type="com.icia.eat.dto.CompanyDTO"	alias="company" />
+		<typeAlias type="com.icia.eat.dto.QnADTO"	alias="qna" />
+		<typeAlias type="com.icia.eat.dto.StoreDTO"	alias="store" />
+		<typeAlias type="com.icia.eat.dto.ReservationDTO"	alias="reservation" />
+		<typeAlias type="com.icia.eat.dto.Review_SaveDTO"	alias="reviewsave" />
+		
+		<typeAlias alias="search" type="com.icia.eat.dto.SearchDTO"/>
+		<typeAlias alias="paging" type="com.icia.eat.dto.PageDTO"/>
+		<typeAlias alias="sa_chart" type="com.icia.eat.dto.SA_ChartDTO"/>
+		
+	
+	</typeAliases>
+</configuration>
