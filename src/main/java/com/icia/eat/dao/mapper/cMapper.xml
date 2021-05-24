@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Company">
+
+	<!-- 로그인 -->
+	<select id="clogin" resultType="company">
+		SELECT * FROM CMEMBER WHERE CID=#{cId}
+	</select>
+	
+	<!-- 점주 로그인 (암호화된 비밀번호를 가져오기 위함) -->
+	<select parameterType="String" id="EncPw" resultType="String">
+		SELECT CPW FROM CMEMBER WHERE CID=#{cId} 
+	</select>
+	
+	<!-- 업체 등록하기 -->
+	<insert id="cupdate">
+		INSERT INTO STORE VALUES('S_'||STORE_SEQ.NEXTVAL,#{scCode},#{sFileName1,jdbcType=VARCHAR},#{sFileName2,jdbcType=VARCHAR},#{sFileName3,jdbcType=VARCHAR},#{sTime,jdbcType=VARCHAR},#{sUrl},#{sAddr},#{sName},#{sPhone},#{sSeat},#{sContents},#{sbNum},#{sPark},#{sKeyword},0,0,'',#{sFood})
+	</insert>
+	
+	<!-- 업체 리스트 (점주) -->
+	<select id="mgstore" resultType="store">
+		SELECT * FROM STORE WHERE SCCODE=#{scCode}
+	</select>
+	
+	<!-- 업체 상세보기1(회원,점주) -->
+	<select id="sView" resultType="store">
+		SELECT * FROM STORE WHERE STORECODE=#{storeCode}	
+	</select>
+	
+	<!-- 업체 리스트 -->
+	<select id="slist" resultType="store">
+		SELECT * FROM STORE WHERE SSTATUS=1	
+	</select>
+	
+	<!-- 업체 상세보기2(회원) 별점 평균을 위한 sql -->
+	<select id="resaView" resultType="reviewsave">
+		SELECT ROUND(AVG(RSTAR),2)AS RSTARAVG FROM REVIEW WHERE RSCODE=#{storeCode}
+	</select>
+	
+	<!-- 업체 상세보기3(회원) 해당업체의 찜여부를 판별하기위한 sql  -->
+	<select id="resaView1" resultType="reviewsave">
+		SELECT * FROM SAVE WHERE SSCODE=#{storeCode} AND SMCODE=#{mCode}
+	</select>
+	<insert parameterType="company" id="cInsert">INSERT INTO CMEMBER VALUES ('C_'||CMEMBER_SEQ.NEXTVAL,#{cId},#{cPw},#{cName},#{cPhone},#{cEmail},1,SYSDATE) </insert>
+
+	<!-- cidOverlap -->
+	<select parameterType="String" id="cidOverlap" resultType="String">
+		SELECT CID FROM CMEMBER WHERE CID=#{cId} 
+	</select>
+
+	<!-- 점주 정보보기 -->
+	<select parameterType="String" id="cview" resultType="company">
+		SELECT * FROM CMEMBER WHERE CID=#{cId} 
+	</select>
+
+	<!-- 점주 정보 수정 -->
+	<update parameterType="company" id="cModify">
+		UPDATE CMEMBER SET CNAME=#{cName}, CPHONE=#{cPhone}, CEMAIL=#{cEmail} WHERE CID=#{cId} 
+	</update>
+
+	<!-- 점주 삭제 -->
+	<update parameterType="String" id="cDel">
+		UPDATE CMEMBER SET CKEY=2 WHERE CID=#{cId} 
+	</update>
+
+	<!-- 점주 아이디 찾기 -->
+	<select id="cidcheck" resultType="String">
+		SELECT CID FROM CMEMBER WHERE CNAME=#{cName} AND CPHONE=#{cPhone} 
+	</select>
+
+	<!-- 점주 비밀번호 변경하기 -->
+	<update parameterType="company" id="cPwChange">
+		UPDATE CMEMBER SET CPW=#{cPw} WHERE CID=#{cId} 
+	</update>
+	
+	<!-- cKAlter -->
+	<update parameterType="company" id="cKAlter">
+		UPDATE CMEMBER SET CKEY ='C' WHERE CID=#{cId} 
+	</update>
+	<!-- 나의 문의 현황 (점주) -->
+	<select parameterType="String" id="C_myQnAList" resultType="qna">
+		SELECT CQNACODE,CQNACAT,CQNACID,CQNATITLE,CQNACONTENTS, TO_CHAR(CQNADATE, 'YYYY-MM-DD') AS CQNADATE,CQNAANSWER, TO_CHAR(CQNADATE2, 'YYYY-MM-DD') AS CQNADATE2,CQNAKEY FROM QNAC WHERE CQNACID=#{cQnAcId} 
+	</select>
+		
+	<!-- 업체 정보 수정 -->
+	<update id="sModify" parameterType="store">
+		UPDATE STORE SET SURL=#{sUrl,jdbcType=VARCHAR}, SADDR=#{sAddr,jdbcType=VARCHAR}, SPHONE=#{sPhone,jdbcType=VARCHAR}, SBNUM=#{sbNum,jdbcType=VARCHAR}, SCONTENTS=#{sContents,jdbcType=VARCHAR}, SKEYWORD=#{sKeyword,jdbcType=VARCHAR}, SFOOD=#{sFood,jdbcType=VARCHAR}, SSEAT=#{sSeat,jdbcType=VARCHAR}, SPARK=#{sPark,jdbcType=VARCHAR}, SFILENAME1=#{sFileName1,jdbcType=VARCHAR}, SFILENAME2=#{sFileName2,jdbcType=VARCHAR}, SFILENAME3=#{sFileName3,jdbcType=VARCHAR} WHERE
+		STORECODE=#{storeCode}
+	</update>
+	
+	<!-- 업체 삭제 -->
+	<update id="sDel" parameterType="String">
+		UPDATE STORE SET SSTATUS=3 WHERE
+		STORECODE=#{storeCode}
+	</update>
+	 
+
+</mapper>
